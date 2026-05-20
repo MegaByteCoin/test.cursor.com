@@ -1,0 +1,118 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e0e0e0;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+.auth-card {
+    background: rgba(30, 30, 50, 0.95);
+    border: 1px solid rgba(100, 100, 255, 0.15);
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.auth-logo {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #7c8aff;
+}
+
+.auth-card h2 {
+    text-align: center;
+    margin-bottom: 28px;
+    font-weight: 600;
+    color: #c0c8ff;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #9a9abf;
+    font-weight: 500;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(100, 100, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(20, 20, 40, 0.8);
+    color: #e0e0e0;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #7c8aff;
+    box-shadow: 0 0 0 3px rgba(124, 138, 255, 0.15);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #5b6abf, #7c8aff);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #6b7acf, #8c9aff);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124, 138, 255, 0.3);
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+}
+
+.auth-link a {
+    color: #7c8aff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* Toast */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

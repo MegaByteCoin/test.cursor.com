@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Zona — Социальная Сеть</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+<!-- ===================== TOP HEADER ===================== -->
+<header class="top-header">
+    <div class="header-logo">🤖 AI Zona</div>
+    <div class="header-user">
+        <span class="header-username">{{ user['display_name'] or user['username'] }}</span>
+        <button class="btn-logout" onclick="doLogout()">Выйти</button>
+    </div>
+</header>
+
+<div class="app-layout">
+    <!-- ===================== LEFT SIDEBAR (VK-style) ===================== -->
+    <nav class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="sidebar-item active" data-tab="chat">
+                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+                <span>Чат</span>
+            </li>
+            <li class="sidebar-item" data-tab="search">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <span>Поиск</span>
+            </li>
+            <li class="sidebar-item" data-tab="friends">
+                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                <span>Друзья</span>
+            </li>
+            <li class="sidebar-item" data-tab="messages">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>Сообщения</span>
+            </li>
+            <li class="sidebar-item" data-tab="apps">
+                <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+                <span>Приложения</span>
+            </li>
+            <li class="sidebar-item" data-tab="settings">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                <span>Настройки</span>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- ===================== MAIN CONTENT AREA ===================== -->
+    <main class="content-area">
+
+        <!-- ========== TAB: CHAT ========== -->
+        <section id="tab-chat" class="tab-content active">
+            <div class="content-card">
+                <h2>💬 Чат с Mr.IT-Architect (Техподдержка)</h2>
+                <div class="chat-window" id="globalChatMessages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="globalChatInput" placeholder="Напишите сообщение..." autocomplete="off">
+                    <button class="btn-send" onclick="sendGlobalChat()">Отправить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== TAB: SEARCH ========== -->
+        <section id="tab-search" class="tab-content">
+            <div class="content-card">
+                <h2>🔍 Каталог Системы</h2>
+                <div class="search-tabs">
+                    <button class="search-tab active" data-search="people" onclick="switchSearchTab('people')">Люди</button>
+                    <button class="search-tab" data-search="bots" onclick="switchSearchTab('bots')">Боты</button>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Поиск..." oninput="doSearch()">
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </section>
+
+        <!-- ========== TAB: FRIENDS (Stub) ========== -->
+        <section id="tab-friends" class="tab-content">
+            <div class="content-card stub-card">
+                <div class="stub-icon">👥</div>
+                <h2>Друзья</h2>
+                <p>Этот раздел находится в разработке.<br>Скоро здесь появится список ваших друзей!</p>
+            </div>
+        </section>
+
+        <!-- ========== TAB: MESSAGES (Stub) ========== -->
+        <section id="tab-messages" class="tab-content">
+            <div class="content-card stub-card">
+                <div class="stub-icon">✉️</div>
+                <h2>Сообщения</h2>
+                <p>Этот раздел находится в разработке.<br>Скоро здесь появится система личных сообщений!</p>
+            </div>
+        </section>
+
+        <!-- ========== TAB: APPS (Stub) ========== -->
+        <section id="tab-apps" class="tab-content">
+            <div class="content-card stub-card">
+                <div class="stub-icon">📱</div>
+                <h2>Приложения</h2>
+                <p>Этот раздел находится в разработке.<br>Скоро здесь появятся мини-приложения!</p>
+            </div>
+        </section>
+
+        <!-- ========== TAB: SETTINGS ========== -->
+        <section id="tab-settings" class="tab-content">
+            <div class="content-card">
+                <h2>⚙️ Настройки</h2>
+
+                <!-- User Profile -->
+                <div class="settings-section">
+                    <h3>Профиль</h3>
+                    <div class="form-group">
+                        <label>Логин</label>
+                        <input type="text" id="settingsUsername" disabled value="{{ user['username'] }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Отображаемое имя</label>
+                        <input type="text" id="settingsDisplayName" value="{{ user['display_name'] or '' }}">
+                    </div>
+                    <button class="btn-primary" onclick="saveProfile()">Сохранить профиль</button>
+                </div>
+
+                <!-- Bot Workshop -->
+                <div class="settings-section">
+                    <h3>🛠️ Моя Мастерская Ботов</h3>
+                    <div class="bot-create-area">
+                        <input type="text" id="newBotName" placeholder="Имя нового бота" maxlength="50">
+                        <button class="btn-primary" onclick="createBot()">Создать бота</button>
+                    </div>
+                    <div id="myBotsList" class="my-bots-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== TAB: BOT CHAT (Dynamic) ========== -->
+        <section id="tab-botchat" class="tab-content">
+            <div class="content-card">
+                <div class="bot-chat-header">
+                    <button class="btn-back" onclick="switchTab('search')">← Назад</button>
+                    <h2 id="botChatTitle">Чат с ботом</h2>
+                </div>
+                <div class="chat-window" id="botChatMessages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="botChatInput" placeholder="Напишите сообщение боту..." autocomplete="off">
+                    <button class="btn-send" onclick="sendBotChat()">Отправить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== TAB: BOT MANAGE (Dynamic) ========== -->
+        <section id="tab-botmanage" class="tab-content">
+            <div class="content-card">
+                <div class="bot-chat-header">
+                    <button class="btn-back" onclick="switchTab('settings')">← Назад</button>
+                    <h2 id="botManageTitle">Управление ботом</h2>
+                </div>
+
+                <!-- Privacy Toggles -->
+                <div class="settings-section">
+                    <h3>🔒 Настройки приватности</h3>
+                    <div class="toggle-row">
+                        <label class="toggle-label">
+                            <span>Разрешить другим пользователям писать моему боту</span>
+                            <input type="checkbox" id="toggleAllowMessages" onchange="updateBotPrivacy()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <label class="toggle-label">
+                            <span>Разрешить добавлять моего бота в друзья</span>
+                            <input type="checkbox" id="toggleAllowFriends" onchange="updateBotPrivacy()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Training -->
+                <div class="settings-section">
+                    <h3>📚 Обучение бота</h3>
+                    <div class="train-form">
+                        <div class="form-group">
+                            <label>Если боту скажут (Вопрос):</label>
+                            <input type="text" id="trainQuestion" placeholder="Например: Привет, как дела?">
+                        </div>
+                        <div class="form-group">
+                            <label>Бот должен ответить (Реакция):</label>
+                            <textarea id="trainAnswer" placeholder="Например: Привет! У меня всё отлично!" rows="3"></textarea>
+                        </div>
+                        <button class="btn-primary" onclick="trainBot()">Обучить фразе</button>
+                    </div>
+                </div>
+
+                <!-- Memory List -->
+                <div class="settings-section">
+                    <h3>🧠 Выученные фразы</h3>
+                    <div id="botMemoryList" class="memory-list"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="/static/js/toast.js"></script>
+<script>
+const CURRENT_USER_ID = {{ user['id'] }};
+</script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

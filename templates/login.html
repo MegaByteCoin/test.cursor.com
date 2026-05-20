@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Zona — Вход</title>
+    <link rel="stylesheet" href="/static/css/auth.css">
+</head>
+<body>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo">🤖 AI Zona</div>
+        <h2>Вход в систему</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Логин</label>
+                <input type="text" id="username" name="username" required autocomplete="username" placeholder="Введите логин">
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Введите пароль">
+            </div>
+            <button type="submit" class="btn-primary">Войти</button>
+        </form>
+        <p class="auth-link">Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+    </div>
+</div>
+<div id="toast-container"></div>
+<script src="/static/js/toast.js"></script>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    try {
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, password})
+        });
+        const data = await res.json();
+        if (res.ok) {
+            showToast('Успешный вход!', 'success');
+            setTimeout(() => window.location.href = '/app', 500);
+        } else {
+            showToast(data.error || 'Ошибка входа', 'error');
+        }
+    } catch (err) {
+        showToast('Ошибка соединения', 'error');
+    }
+});
+</script>
+</body>
+</html>
